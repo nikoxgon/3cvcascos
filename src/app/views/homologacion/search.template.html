@@ -1,0 +1,206 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+      <h2>Cascos acreditados</h2>
+      <ol class="breadcrumb">
+        <li>
+          <a href="#">Inicio</a>
+        </li>
+        <li>
+          Acreditación
+        </li>
+        <li class="active">
+          <strong>Consulta</strong>
+        </li>
+      </ol>
+    </div>
+  </div>
+  
+  <div class="wrapper wrapper-content animated fadeInRight" ng-controller="datatablesCtrl">
+  
+    <!--
+      <div class="row">
+          <div class="col-lg-12">
+              <div class="text-center m-t-lg">
+                  <h1>
+                      Simple example of second view
+                  </h1>
+                  <small>Configure in config.js as minor state.</small>
+              </div>
+          </div>
+      </div>
+      -->
+  
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Filtros de búsqueda</h5>
+            <!--
+                      <div class="ibox-tools">
+                          <a class="collapse-link">
+                              <i class="fa fa-chevron-up"></i>
+                          </a>
+                      </div>
+                      -->
+          </div>
+          <form (ngSubmit)="changeParams()" class="ibox-content m-b-sm border-bottom">
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label" for="codigo">Número acreditación</label>
+                  <input type="text" id="codigo" name="homAcreditacion" value="" [(ngModel)]="params.homAcreditacion" placeholder="Código" class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label" for="rut">Rut solicitante</label>
+                  <input type="text" id="solRut" name="solRut" value="" placeholder="Rut" [(ngModel)]="params.solRut" formatRut validateRut class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label" for="fecha1">Fecha inicio</label>
+                  <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="homFecha1" id="fecha1" type="date" class="form-control" [(ngModel)]="params.homFecha1">
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label" for="fecha2">Fecha término</label>
+                  <div class="input-group date">
+                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                    <input name="homFecha2" id="fecha2" type="date" class="form-control" [(ngModel)]="params.homFecha2">
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label" for="fabricante">Fabricante</label>
+                  <input type="text" id="fabricante" name="casFabricante" value="" [(ngModel)]="params.casFabricante" placeholder="Nombre" class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label" for="marca">Marca</label>
+                  <input type="text" id="marca" name="casMarca" value="" [(ngModel)]="params.casMarca" placeholder="Nombre" class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-3">
+                <div class="form-group">
+                  <label class="control-label" for="modelo">Modelo</label>
+                  <input type="text" id="modelo" name="casModelo" value="" [(ngModel)]="params.casModelo" placeholder="Nombre" class="form-control">
+                </div>
+              </div>
+              <div class="col-sm-1">
+                <div class="form-group">
+                  <button type="submit" class="btn btn-primary m-t-md">Buscar</button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+          <div class="ibox-title">
+            <h5>Listado de cascos acreditados</h5>
+            <div class="ibox-tools">
+                <button type="button" (click)="btnClickNueva();" class="btn btn-primary btn-xs">Nueva acreditación</button>
+            </div>
+          </div>
+          <div class="ibox-content">
+  
+            <div class="table-responsive">
+              <table class="table table-striped" [mfData]="data" #mf="mfDataTable" [mfRowsOnPage]="rowsOnPage" [(mfSortBy)]="sortBy" [(mfSortOrder)]="sortOrder">
+                <thead>
+                  <tr>
+                    <th>
+                      <mfDefaultSorter by="homFecha">Fecha</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="homAcreditacion">Número <br>acreditación</mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="casMarca">Marca<br>Modelo</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="casOrigen">Origen</mfDefaultSorter>
+                    </th>
+                    <th>
+                        <mfDefaultSorter by="casFabricante">Fabricante<br>Lote</mfDefaultSorter>
+                    </th>
+                    <th>
+                      <mfDefaultSorter by="solRut">Solicitante</mfDefaultSorter>
+                    </th>
+                    <th>Casco</th>
+                    <th>QR1</th>
+                    <th>QR2</th>
+                    <th>Acción</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let homologacion of mf.data">
+                    <td>{{homologacion.homFecha | date:'dd/MM/yyyy'}}</td>
+                    <td>
+                      <span class="text-navy">{{homologacion.homAcreditacion}}</span>
+                    </td>
+                    <td>
+                      <span class="text-navy">{{homologacion.casMarca}}</span><br/>
+                      {{homologacion.casModelo}}
+                    </td>
+                    <td>{{homologacion.casOrigen}}</td>
+                    <td>
+                      {{homologacion.casFabricante}}<br>
+                      {{homologacion.casLote}}
+                    </td>
+                    <td>
+                      <span class="text-navy">{{ homologacion.solRut | rut }}</span><br/>
+                      {{homologacion.solNombre}}
+                    </td>
+                    <td>
+                      <div class="col-md-6">
+                        <img style="width:32px;" src="{{homologacion.casImagen1}}" onError="this.src='/assets/images/default.png'" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="col-md-6">
+                        <img style="width:32px;" src="{{homologacion.homQrcode1}}" onError="this.src='/assets/images/default.png'" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="col-md-6">
+                        <img style="width:32px;" src="{{homologacion.homQrcode2}}" onError="this.src='/assets/images/default.png'" />
+                      </div>
+                    </td>
+                    <td>
+                      <div class="btn-group">
+                        <!-- button class="btn-white btn btn-xs">Ver</button -->
+                        <button class="btn-white btn btn-xs" id="{{homologacion.homAcreditacion}}" (click)="editar($event);">Editar</button>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="12">
+                            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+                        </td>
+                    </tr>
+                </tfoot>
+              </table>
+  
+            </div>
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  </div>  

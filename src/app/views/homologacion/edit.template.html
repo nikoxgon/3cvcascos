@@ -1,0 +1,148 @@
+
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-12">
+        <h2>Registro de acreditación</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="#">Inicio</a>
+            </li>
+            <li>
+                Acreditación
+            </li>
+            <li class="active">
+                <strong>Registro</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Formulario de acreditación<small> Ingrese la información del solicitante y el casco </small></h5>
+                </div>
+                <div class="ibox-content">
+                    <form (ngSubmit)="getImage()" class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                Datos del solicitante<br/>
+                                <small class="text-navy">Selecciona la persona o empresa solicitante</small>
+                            </label>
+                            <div class="col-sm-4">
+                                <label>Solicitante</label>
+                                <select class="form-control m-b" [(ngModel)]="solRut" name="solRut" disabled>
+                                        <option *ngFor="let s of solicitantes" [value]="s.solRut" >{{ s.solRut | rut }} {{s.solNombre}}</option>
+                                </select>
+                            </div>
+                            <!--
+                            <div class="col-sm-1">
+                                <div class="form-group">
+                                    <button class="btn btn-primary m-t-md" type="button" (click)="btnClickNew();">Nuevo</button>
+                                </div>
+                            </div>
+                            -->
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                Datos del casco<br/>
+                                <small class="text-navy">Ingresa los datos del casco</small>
+                            </label>
+                            <div class="col-sm-3">
+                                <label>Marca</label>
+                                <input type="text" placeholder="Marca" class="form-control" [(ngModel)]="homologacion.casMarca" name="casMarca">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Modelo</label>
+                                <input type="text" placeholder="Modelo" class="form-control" [(ngModel)]="homologacion.casModelo" name="casModelo">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-3 col-sm-offset-2">
+                                <label>Origen (país de fabricación)</label>
+                                <input type="text" placeholder="Origen" class="form-control" [(ngModel)]="homologacion.casOrigen" name="casOrigen">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Lote de fabricación</label>
+                                <input type="text" placeholder="Numéro de lote" class="form-control" [(ngModel)]="homologacion.casLote" name="casLote">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Fabricante</label>
+                                <input type="text" placeholder="Nombre fabricante" class="form-control" [(ngModel)]="homologacion.casFabricante" name="casFabricante">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                Imagen del casco<br/>
+                                <small class="text-navy">Sube una imagen de referencia del casco</small>
+                            </label>
+                            <div class="col-sm-4">
+                                <label>Vista previa de la imagen</label>
+                                <img-cropper [image]="data" [settings]="cropperSettings"></img-cropper>
+                            </div>
+                            <div class="col-sm-4">
+                                <label>Imagen seleccionada</label><br/><br/>
+                                <!-- onError="this.src='/assets/images/default.png'" -->
+                                <img [src]="data.image" [width]="cropperSettings.croppedWidth" [height]="cropperSettings.croppedHeight" id="casco" onError="this.src='/assets/images/default.png'">
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">
+                                Datos de acreditación<br/>
+                                <small class="text-navy">Ingresa los datos de la acreditación</small>
+                            </label>
+                            <div class="col-sm-3">
+                                <label>Número de acreditación</label>
+                                <input type="text" disabled placeholder="Número de acreditación" class="form-control" [(ngModel)]="homologacion.homAcreditacion" name="homAcreditacion">
+                            </div>
+                            <div class="col-sm-3">
+                                <label>Fecha de acreditación</label>
+                                <input type="text" disabled class="form-control" name="fecha" [(ngModel)]="homologacion.homFecha">
+                            </div>
+                        </div>
+
+                        <div class="hr-line-dashed"></div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-white" (click)="btnClickCancel();">Cancelar</button>
+                                <button class="btn btn-primary" role="button">Guardar</button>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <canvas id="textCanvas" style="display:none">{{solRut}}</canvas>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <canvas id="canvasQr" style="display:none"></canvas>
+                                <canvas id="canvasQrM" style="display:none"></canvas>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="display:none;">
+                            <div class="col-sm-4 col-sm-offset-2" id="qrCode">
+                                <ngx-qrcode qrc-element-type="url" [qrc-value]="(urlPub+homologacion.homAcreditacion)" ></ngx-qrcode> 
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
