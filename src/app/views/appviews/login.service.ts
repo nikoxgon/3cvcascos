@@ -4,15 +4,16 @@ import { of } from "rxjs/observable/of";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { map } from "rxjs/operators";
 import { Permisos } from "./permisos";
+import { environment } from 'environments/environment';
 
 @Injectable()
 export class LoginService {
   //private urlEndPointLogin: string = 'http://190.151.54.74:3002/api/loginMtt';
   //private urlEndPointLogout: string = 'http://190.151.54.74:3002/api/logoutMtt';
   //private urlEndPointCheckSession: string = 'http://190.151.54.74:3002/api/checkSession';
-  private urlEndPointLogin: string = '';
+  private urlEndPointLogin: string = environment.apiURL + 'loginMtt';
   private urlEndPointLogout: string = '';
-  private urlEndPointCheckSession: string = '';
+  private urlEndPointCheckSession: string = environment.apiURL + 'checkSession';
   private urlEndPointNode: string = '/service/getUrl';
   private url:string = '';
 
